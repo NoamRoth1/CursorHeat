@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CursorHeat - Account</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 1rem;
+        }
+        .navbar-menu a {
+            color: #666;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .navbar-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .button.danger {
+            background-color: #e74c3c;
+        }
+        .button.danger:hover {
+            background-color: #c0392b;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            display: none;
+        }
+        .success {
+            color: #2ecc71;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">CursorHeat</a>
+        <div class="navbar-menu">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/projects">Projects</a>
+            <a href="/account">Account</a>
+            <a href="#" id="logoutButton">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Profile Information</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="error" id="profileError"></div>
+                <div class="success" id="profileSuccess"></div>
+                <button type="submit" class="button">Update Profile</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Change Password</h2>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="error" id="passwordError"></div>
+                <div class="success" id="passwordSuccess"></div>
+                <button type="submit" class="button">Change Password</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>API Key</h2>
+            <div class="form-group">
+                <label for="apiKey">Your API Key</label>
+                <input type="text" id="apiKey" readonly>
+            </div>
+            <button id="regenerateApiKey" class="button danger">Regenerate API Key</button>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is authenticated
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+
+        // Handle logout
+        document.getElementById('logoutButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        });
+
+        // Fetch user data
+        async function fetchUserData() {
+            try {
+                const response = await fetch('/api/v1/user/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+
+                const userData = await response.json();
+                document.getElementById('name').value = userData.name;
+                document.getElementById('email').value = userData.email;
+                document.getElementById('apiKey').value = userData.apiKey || 'No API key generated';
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        }
+
+        // Handle profile update
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const errorElement = document.getElementById('profileError');
+            const successElement = document.getElementById('profileSuccess');
+
+            try {
+                const response = await fetch('/api/v1/user/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email })
+                });
+
+                if (response.ok) {
+                    errorElement.style.display = 'none';
+                    successElement.textContent = 'Profile updated successfully';
+                    successElement.style.display = 'block';
+                } else {
+                    const error = await response.json();
+                    successElement.style.display = 'none';
+                    errorElement.textContent = error.message || 'Failed to update profile';
+                    errorElement.style.display = 'block';
+                }
+            } catch (error) {
+                successElement.style.display = 'none';
+                errorElement.textContent = 'An error occurred. Please try again.';
+                errorElement.style.display = 'block';
+            }
+        });
+
+        // Handle password change
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorElement = document.getElementById('passwordError');
+            const successElement = document.getElementById('passwordSuccess');
+
+            if (newPassword !== confirmPassword) {
+                errorElement.textContent = 'New passwords do not match';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/user/password', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+
+                if (response.ok) {
+                    errorElement.style.display = 'none';
+                    successElement.textContent = 'Password changed successfully';
+                    successElement.style.display = 'block';
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    const error = await response.json();
+                    successElement.style.display = 'none';
+                    errorElement.textContent = error.message || 'Failed to change password';
+                    errorElement.style.display = 'block';
+                }
+            } catch (error) {
+                successElement.style.display = 'none';
+                errorElement.textContent = 'An error occurred. Please try again.';
+                errorElement.style.display = 'block';
+            }
+        });
+
+        // Handle API key regeneration
+        document.getElementById('regenerateApiKey').addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to regenerate your API key? This will invalidate your current key.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/user/api-key', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('apiKey').value = data.apiKey;
+                    alert('API key regenerated successfully');
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to regenerate API key');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Initialize page
+        fetchUserData();
+    </script>
+</body>
+</html> 

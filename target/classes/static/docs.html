@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - CursorHeat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-indigo-600">CursorHeat</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <div class="relative" id="user-menu">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=User" alt="User avatar">
+                            <span class="text-sm font-medium">User</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="md:grid md:grid-cols-4 md:gap-6">
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="sticky top-6">
+                    <nav class="space-y-1">
+                        <a href="#getting-started" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Getting Started
+                        </a>
+                        <a href="#installation" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Installation
+                        </a>
+                        <a href="#api-reference" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            API Reference
+                        </a>
+                        <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Events
+                        </a>
+                        <a href="#heatmaps" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Heatmaps
+                        </a>
+                        <a href="#sessions" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Sessions
+                        </a>
+                        <a href="#integrations" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">
+                            Integrations
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="mt-5 md:mt-0 md:col-span-3">
+                <div class="bg-white shadow sm:rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <!-- Getting Started -->
+                        <section id="getting-started" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Getting Started</h2>
+                            <p class="text-gray-600 mb-4">
+                                CursorHeat is a powerful analytics tool that helps you understand user behavior through mouse tracking and heatmaps. This guide will help you get started with integrating CursorHeat into your application.
+                            </p>
+                        </section>
+
+                        <!-- Installation -->
+                        <section id="installation" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Installation</h2>
+                            <p class="text-gray-600 mb-4">
+                                Add the CursorHeat script to your HTML:
+                            </p>
+                            <pre><code class="language-html">&lt;script src="https://cdn.cursorheat.com/tracker.js" data-project-id="YOUR_PROJECT_ID"&gt;&lt;/script&gt;</code></pre>
+                        </section>
+
+                        <!-- API Reference -->
+                        <section id="api-reference" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">API Reference</h2>
+                            
+                            <!-- Authentication -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Authentication</h3>
+                                <p class="text-gray-600 mb-4">
+                                    All API requests require authentication using your API key. Include it in the Authorization header:
+                                </p>
+                                <pre><code class="language-bash">Authorization: Bearer YOUR_API_KEY</code></pre>
+                            </div>
+
+                            <!-- Endpoints -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Endpoints</h3>
+                                
+                                <!-- Events -->
+                                <div class="mb-4">
+                                    <h4 class="text-lg font-medium text-gray-900 mb-2">Events</h4>
+                                    <pre><code class="language-bash">POST /api/v1/events
+GET /api/v1/events
+GET /api/v1/events/{id}</code></pre>
+                                </div>
+
+                                <!-- Sessions -->
+                                <div class="mb-4">
+                                    <h4 class="text-lg font-medium text-gray-900 mb-2">Sessions</h4>
+                                    <pre><code class="language-bash">GET /api/v1/sessions
+GET /api/v1/sessions/{id}
+GET /api/v1/sessions/{id}/events</code></pre>
+                                </div>
+
+                                <!-- Heatmaps -->
+                                <div class="mb-4">
+                                    <h4 class="text-lg font-medium text-gray-900 mb-2">Heatmaps</h4>
+                                    <pre><code class="language-bash">GET /api/v1/heatmaps
+GET /api/v1/heatmaps/{id}
+POST /api/v1/heatmaps</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Events -->
+                        <section id="events" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Events</h2>
+                            <p class="text-gray-600 mb-4">
+                                CursorHeat tracks various types of events:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-600 mb-4">
+                                <li>Mouse movements</li>
+                                <li>Clicks</li>
+                                <li>Scrolls</li>
+                                <li>Form interactions</li>
+                                <li>Page views</li>
+                            </ul>
+                            <p class="text-gray-600 mb-4">
+                                Example event payload:
+                            </p>
+                            <pre><code class="language-json">{
+  "type": "click",
+  "x": 100,
+  "y": 200,
+  "timestamp": "2024-03-20T12:00:00Z",
+  "page": "/home",
+  "sessionId": "session_123"
+}</code></pre>
+                        </section>
+
+                        <!-- Heatmaps -->
+                        <section id="heatmaps" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Heatmaps</h2>
+                            <p class="text-gray-600 mb-4">
+                                Heatmaps visualize user interaction data on your pages. You can create heatmaps for:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-600 mb-4">
+                                <li>Mouse movements</li>
+                                <li>Clicks</li>
+                                <li>Scroll depth</li>
+                            </ul>
+                            <p class="text-gray-600 mb-4">
+                                Example heatmap configuration:
+                            </p>
+                            <pre><code class="language-json">{
+  "type": "click",
+  "page": "/home",
+  "startDate": "2024-03-01",
+  "endDate": "2024-03-20",
+  "threshold": 0.5
+}</code></pre>
+                        </section>
+
+                        <!-- Sessions -->
+                        <section id="sessions" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Sessions</h2>
+                            <p class="text-gray-600 mb-4">
+                                Sessions represent user visits to your website. Each session contains:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-600 mb-4">
+                                <li>Start and end times</li>
+                                <li>Page views</li>
+                                <li>Events</li>
+                                <li>User information</li>
+                            </ul>
+                        </section>
+
+                        <!-- Integrations -->
+                        <section id="integrations" class="mb-12">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Integrations</h2>
+                            <p class="text-gray-600 mb-4">
+                                CursorHeat integrates with popular tools and services:
+                            </p>
+                            <ul class="list-disc pl-5 text-gray-600 mb-4">
+                                <li>Google Analytics</li>
+                                <li>Slack</li>
+                                <li>Custom webhooks</li>
+                            </ul>
+                            <p class="text-gray-600 mb-4">
+                                Example webhook configuration:
+                            </p>
+                            <pre><code class="language-json">{
+  "url": "https://your-webhook.com/events",
+  "events": ["click", "move", "scroll"],
+  "secret": "your-webhook-secret"
+}</code></pre>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

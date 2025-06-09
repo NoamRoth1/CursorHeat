@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - CursorHeat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-indigo-600">CursorHeat</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <div class="relative" id="user-menu">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=User" alt="User avatar">
+                            <span class="text-sm font-medium">User</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <!-- Profile Settings -->
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Profile Settings</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Update your account information and preferences.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <form id="profile-form">
+                    <div class="shadow sm:rounded-md sm:overflow-hidden">
+                        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                            <!-- Profile Photo -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Photo
+                                </label>
+                                <div class="mt-2 flex items-center">
+                                    <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                                        <img class="h-full w-full rounded-full" src="https://ui-avatars.com/api/?name=User" alt="User avatar">
+                                    </span>
+                                    <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Change
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Name -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">
+                                    Full name
+                                </label>
+                                <input type="text" name="name" id="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">
+                                    Email address
+                                </label>
+                                <input type="email" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Company -->
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-gray-700">
+                                    Company
+                                </label>
+                                <input type="text" name="company" id="company" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Role -->
+                            <div>
+                                <label for="role" class="block text-sm font-medium text-gray-700">
+                                    Role
+                                </label>
+                                <input type="text" name="role" id="role" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Bio -->
+                            <div>
+                                <label for="bio" class="block text-sm font-medium text-gray-700">
+                                    Bio
+                                </label>
+                                <div class="mt-1">
+                                    <textarea id="bio" name="bio" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500">
+                                    Brief description for your profile.
+                                </p>
+                            </div>
+
+                            <!-- Notification Preferences -->
+                            <div>
+                                <h3 class="text-lg font-medium leading-6 text-gray-900">Notification Preferences</h3>
+                                <div class="mt-4 space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="email-notifications" name="email-notifications" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="email-notifications" class="font-medium text-gray-700">Email notifications</label>
+                                            <p class="text-gray-500">Get notified about important updates via email.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="marketing-emails" name="marketing-emails" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="marketing-emails" class="font-medium text-gray-700">Marketing emails</label>
+                                            <p class="text-gray-500">Receive updates about new features and promotions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="mt-8 md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Security Settings</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Manage your account security and authentication settings.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                    <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                        <!-- Change Password -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">Change Password</h4>
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <label for="current-password" class="block text-sm font-medium text-gray-700">Current password</label>
+                                    <input type="password" name="current-password" id="current-password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="new-password" class="block text-sm font-medium text-gray-700">New password</label>
+                                    <input type="password" name="new-password" id="new-password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm new password</label>
+                                    <input type="password" name="confirm-password" id="confirm-password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Two-Factor Authentication -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">Two-Factor Authentication</h4>
+                            <div class="mt-4">
+                                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Enable 2FA
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- API Keys -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">API Keys</h4>
+                            <div class="mt-4">
+                                <div class="bg-gray-50 px-4 py-5 sm:rounded-lg sm:p-6">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Production API Key</p>
+                                            <p class="mt-1 text-sm text-gray-500">Used for production environments</p>
+                                        </div>
+                                        <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Regenerate
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                        <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Save security settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        // Fetch user profile data
+        async function fetchProfileData() {
+            try {
+                const response = await fetch('/api/v1/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    populateProfileForm(data);
+                }
+            } catch (error) {
+                console.error('Error fetching profile data:', error);
+            }
+        }
+
+        // Populate form with user data
+        function populateProfileForm(data) {
+            document.getElementById('name').value = data.name || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('company').value = data.company || '';
+            document.getElementById('role').value = data.role || '';
+            document.getElementById('bio').value = data.bio || '';
+            document.getElementById('email-notifications').checked = data.emailNotifications || false;
+            document.getElementById('marketing-emails').checked = data.marketingEmails || false;
+        }
+
+        // Handle profile form submission
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                company: document.getElementById('company').value,
+                role: document.getElementById('role').value,
+                bio: document.getElementById('bio').value,
+                emailNotifications: document.getElementById('email-notifications').checked,
+                marketingEmails: document.getElementById('marketing-emails').checked
+            };
+            
+            try {
+                const response = await fetch('/api/v1/users/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    alert('Profile updated successfully');
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to update profile');
+                }
+            } catch (error) {
+                alert('An error occurred while updating profile');
+            }
+        });
+
+        // Initial data fetch
+        fetchProfileData();
+    </script>
+</body>
+</html> 

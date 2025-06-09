@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - CursorHeat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-indigo-600">CursorHeat</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <div class="relative" id="user-menu">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=User" alt="User avatar">
+                            <span class="text-sm font-medium">User</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Project Settings -->
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Project Settings</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Configure your project settings and tracking preferences.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <form id="project-settings-form">
+                    <div class="shadow sm:rounded-md sm:overflow-hidden">
+                        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                            <!-- Project Name -->
+                            <div>
+                                <label for="project-name" class="block text-sm font-medium text-gray-700">
+                                    Project Name
+                                </label>
+                                <input type="text" name="project-name" id="project-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Project URL -->
+                            <div>
+                                <label for="project-url" class="block text-sm font-medium text-gray-700">
+                                    Project URL
+                                </label>
+                                <input type="url" name="project-url" id="project-url" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Tracking Settings -->
+                            <div>
+                                <h4 class="text-base font-medium text-gray-900">Tracking Settings</h4>
+                                <div class="mt-4 space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="track-clicks" name="track-clicks" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="track-clicks" class="font-medium text-gray-700">Track Clicks</label>
+                                            <p class="text-gray-500">Record user click events</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="track-moves" name="track-moves" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="track-moves" class="font-medium text-gray-700">Track Mouse Movements</label>
+                                            <p class="text-gray-500">Record mouse movement events</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="track-scrolls" name="track-scrolls" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="track-scrolls" class="font-medium text-gray-700">Track Scrolls</label>
+                                            <p class="text-gray-500">Record page scroll events</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sampling Rate -->
+                            <div>
+                                <label for="sampling-rate" class="block text-sm font-medium text-gray-700">
+                                    Sampling Rate (ms)
+                                </label>
+                                <input type="number" name="sampling-rate" id="sampling-rate" min="50" max="1000" step="50" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <p class="mt-2 text-sm text-gray-500">
+                                    How often to record mouse movements (in milliseconds)
+                                </p>
+                            </div>
+
+                            <!-- Session Timeout -->
+                            <div>
+                                <label for="session-timeout" class="block text-sm font-medium text-gray-700">
+                                    Session Timeout (minutes)
+                                </label>
+                                <input type="number" name="session-timeout" id="session-timeout" min="5" max="120" step="5" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <p class="mt-2 text-sm text-gray-500">
+                                    Time before a user session is considered inactive
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Save project settings
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Integrations -->
+        <div class="mt-8 md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Integrations</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Connect your project with other services and tools.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                    <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                        <!-- Google Analytics -->
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-base font-medium text-gray-900">Google Analytics</h4>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Connect with Google Analytics to combine data
+                                </p>
+                            </div>
+                            <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Connect
+                            </button>
+                        </div>
+
+                        <!-- Slack -->
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-base font-medium text-gray-900">Slack</h4>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Send notifications to Slack channels
+                                </p>
+                            </div>
+                            <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Connect
+                            </button>
+                        </div>
+
+                        <!-- Webhooks -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">Webhooks</h4>
+                            <div class="mt-4">
+                                <div class="bg-gray-50 px-4 py-5 sm:rounded-lg sm:p-6">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Webhook URL</p>
+                                            <p class="mt-1 text-sm text-gray-500">Send events to your custom endpoint</p>
+                                        </div>
+                                        <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Add Webhook
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Export -->
+        <div class="mt-8 md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Data Export</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Export your tracking data in various formats.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                    <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                        <!-- Export Options -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">Export Options</h4>
+                            <div class="mt-4 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">CSV Export</p>
+                                        <p class="mt-1 text-sm text-gray-500">Export raw event data in CSV format</p>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Export
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">JSON Export</p>
+                                        <p class="mt-1 text-sm text-gray-500">Export data in JSON format</p>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Export
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Export Schedule -->
+                        <div>
+                            <h4 class="text-base font-medium text-gray-900">Scheduled Exports</h4>
+                            <div class="mt-4">
+                                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Schedule Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        // Fetch project settings
+        async function fetchProjectSettings() {
+            try {
+                const response = await fetch('/api/v1/projects/settings', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    populateProjectSettings(data);
+                }
+            } catch (error) {
+                console.error('Error fetching project settings:', error);
+            }
+        }
+
+        // Populate project settings form
+        function populateProjectSettings(data) {
+            document.getElementById('project-name').value = data.name || '';
+            document.getElementById('project-url').value = data.url || '';
+            document.getElementById('track-clicks').checked = data.trackClicks || false;
+            document.getElementById('track-moves').checked = data.trackMoves || false;
+            document.getElementById('track-scrolls').checked = data.trackScrolls || false;
+            document.getElementById('sampling-rate').value = data.samplingRate || 100;
+            document.getElementById('session-timeout').value = data.sessionTimeout || 30;
+        }
+
+        // Handle project settings form submission
+        document.getElementById('project-settings-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('project-name').value,
+                url: document.getElementById('project-url').value,
+                trackClicks: document.getElementById('track-clicks').checked,
+                trackMoves: document.getElementById('track-moves').checked,
+                trackScrolls: document.getElementById('track-scrolls').checked,
+                samplingRate: parseInt(document.getElementById('sampling-rate').value),
+                sessionTimeout: parseInt(document.getElementById('session-timeout').value)
+            };
+            
+            try {
+                const response = await fetch('/api/v1/projects/settings', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    alert('Project settings updated successfully');
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to update project settings');
+                }
+            } catch (error) {
+                alert('An error occurred while updating project settings');
+            }
+        });
+
+        // Initial data fetch
+        fetchProjectSettings();
+    </script>
+</body>
+</html> 

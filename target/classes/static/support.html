@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - CursorHeat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-indigo-600">CursorHeat</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <div class="relative" id="user-menu">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=User" alt="User avatar">
+                            <span class="text-sm font-medium">User</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <!-- Knowledge Base -->
+            <div class="md:col-span-2">
+                <div class="bg-white shadow sm:rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Knowledge Base</h2>
+                        
+                        <!-- Search -->
+                        <div class="mb-8">
+                            <div class="relative">
+                                <input type="text" id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Search articles...">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="space-y-6">
+                            <!-- Getting Started -->
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Getting Started</h3>
+                                <div class="space-y-4">
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Quick Start Guide</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Learn how to set up CursorHeat in minutes</p>
+                                    </a>
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Installation Guide</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Step-by-step installation instructions</p>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Features</h3>
+                                <div class="space-y-4">
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Heatmaps</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Understanding and using heatmaps</p>
+                                    </a>
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Session Recording</h4>
+                                        <p class="mt-1 text-sm text-gray-600">How to use session recordings</p>
+                                    </a>
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Event Tracking</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Custom event tracking guide</p>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Troubleshooting -->
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Troubleshooting</h3>
+                                <div class="space-y-4">
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Common Issues</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Solutions to common problems</p>
+                                    </a>
+                                    <a href="#" class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                        <h4 class="text-base font-medium text-gray-900">Performance Optimization</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Tips for optimal performance</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="mt-5 md:mt-0 md:col-span-1">
+                <div class="bg-white shadow sm:rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Support</h2>
+                        <form id="contact-form" class="space-y-6">
+                            <!-- Name -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" name="name" id="name" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <!-- Subject -->
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                <select id="subject" name="subject" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">Select a subject</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="billing">Billing Question</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Message -->
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                <textarea id="message" name="message" rows="4" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                            </div>
+
+                            <!-- Submit -->
+                            <div>
+                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Live Chat -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Live Chat</h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Need immediate assistance? Our support team is available 24/7.
+                            </p>
+                            <button type="button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Start Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        // Handle contact form submission
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            try {
+                const response = await fetch('/api/v1/support/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    alert('Message sent successfully! We will get back to you soon.');
+                    e.target.reset();
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to send message');
+                }
+            } catch (error) {
+                alert('An error occurred while sending your message');
+            }
+        });
+
+        // Handle search
+        document.getElementById('search').addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+            if (query.length < 2) return;
+            
+            try {
+                const response = await fetch(`/api/v1/support/search?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const results = await response.json();
+                    // Update search results
+                    // Implementation depends on your search results UI
+                }
+            } catch (error) {
+                console.error('Error searching articles:', error);
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CursorHeat Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .click-area {
+            height: 400px;
+            border: 2px dashed #ccc;
+            margin: 20px 0;
+            position: relative;
+            background: #fafafa;
+        }
+        .click-marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .stats p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CursorHeat Test Page</h1>
+        <p>Click anywhere in the box below to test mouse click tracking. The coordinates and timestamp will be displayed below.</p>
+        
+        <div id="clickArea" class="click-area"></div>
+        
+        <div class="stats">
+            <h3>Click Statistics</h3>
+            <p>Total Clicks: <span id="totalClicks">0</span></p>
+            <p>Last Click: <span id="lastClick">None</span></p>
+            <p>Coordinates: <span id="coordinates">None</span></p>
+        </div>
+    </div>
+
+    <script src="/api/v1/tracker.js"></script>
+    <script>
+        // Initialize CursorHeat
+        CursorHeat.init({
+            apiKey: 'test-api-key-123',
+            projectId: 'test',
+            options: {
+                trackClicks: true,
+                trackMoves: true,
+                trackScrolls: true,
+                sampleRate: 100
+            }
+        });
+
+        // Test page specific code
+        const clickArea = document.getElementById('clickArea');
+        const totalClicksSpan = document.getElementById('totalClicks');
+        const lastClickSpan = document.getElementById('lastClick');
+        const coordinatesSpan = document.getElementById('coordinates');
+        
+        let clickCount = 0;
+
+        clickArea.addEventListener('click', (e) => {
+            clickCount++;
+            totalClicksSpan.textContent = clickCount;
+            
+            const rect = clickArea.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Create click marker
+            const marker = document.createElement('div');
+            marker.className = 'click-marker';
+            marker.style.left = `${x}px`;
+            marker.style.top = `${y}px`;
+            clickArea.appendChild(marker);
+            
+            // Remove marker after animation
+            setTimeout(() => marker.remove(), 1000);
+            
+            // Update stats
+            lastClickSpan.textContent = new Date().toLocaleTimeString();
+            coordinatesSpan.textContent = `X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+            
+            // Log to console for debugging
+            console.log('Click event:', {
+                x: Math.round(x),
+                y: Math.round(y),
+                timestamp: new Date().toISOString()
+            });
+        });
+    </script>
+</body>
+</html> 

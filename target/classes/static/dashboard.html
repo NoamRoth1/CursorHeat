@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CursorHeat - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--surface);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand img {
+            height: 32px;
+            width: 32px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .navbar-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-menu a:hover {
+            color: var(--primary);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .button.secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .main-content {
+            margin-top: 4rem;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-content {
+            color: var(--text-light);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background-color: var(--surface);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .project-list {
+            list-style: none;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .project-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .project-info p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .project-actions button {
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .project-actions button:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar-menu {
+                display: none;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <img src="https://api.iconify.design/mdi:cursor-default-click.svg" alt="CursorHeat Logo">
+            CursorHeat
+        </a>
+        <div class="navbar-menu">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/projects.html">Projects</a>
+            <a href="/account.html">Account</a>
+            <button class="button secondary" id="logoutButton">Logout</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1>Welcome, <span id="userName">User</span></h1>
+            <a href="/projects.html" class="button">New Project</a>
+                        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Active Projects</h2>
+                        </div>
+                <div class="card-content">
+                    <ul class="project-list" id="activeProjects">
+                        <!-- Projects will be populated here -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Recent Activity</h2>
+                        </div>
+                <div class="card-content">
+                    <div class="chart-container">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Quick Stats</h2>
+                        </div>
+                <div class="card-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3 id="totalSessions">0</h3>
+                            <p>Total Sessions</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="avgDuration">0m</h3>
+                            <p>Avg. Duration</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="totalClicks">0</h3>
+                            <p>Total Clicks</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            token = localStorage.getItem('token');
+            console.log('Dashboard loaded, token exists:', !!token);
+            
+        if (!token) {
+                console.log('No token found, redirecting to login');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Fetch user data
+            try {
+                console.log('Fetching user data with token');
+                const response = await fetch('/api/v1/auth/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    console.log('User data received:', userData);
+                    document.getElementById('userName').textContent = userData.firstName;
+                    // Optionally set email/role if you have those elements
+                    // document.getElementById('userEmail').textContent = userData.email;
+                    // document.getElementById('userRole').textContent = userData.role;
+                } else {
+                    console.error('Failed to fetch user data:', response.status);
+                    localStorage.removeItem('token');
+                    window.location.href = '/login.html';
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+            }
+
+            // Fetch projects
+            fetchProjects();
+
+            // Initialize chart
+            initActivityChart();
+        });
+
+        // Handle logout
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        });
+
+        // Fetch projects
+        async function fetchProjects() {
+            try {
+                const response = await fetch('/api/v1/projects', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const projects = await response.json();
+                    const projectsList = document.getElementById('activeProjects');
+                    projectsList.innerHTML = projects.map(project => `
+                        <li class="project-item">
+                            <div class="project-info">
+                                <h3>${project.name}</h3>
+                                <p>${project.websiteUrl}</p>
+                            </div>
+                            <div class="project-actions">
+                                <button onclick="viewProject('${project.id}')">
+                                    <img src="https://api.iconify.design/mdi:eye.svg" alt="View" width="20" height="20">
+                                </button>
+                                <button onclick="editProject('${project.id}')">
+                                    <img src="https://api.iconify.design/mdi:pencil.svg" alt="Edit" width="20" height="20">
+                                </button>
+                            </div>
+                        </li>
+                    `).join('');
+                } else {
+                    const error = await response.text();
+                    console.error('Error fetching projects:', error);
+                    if (response.status === 401) {
+                        localStorage.removeItem('token');
+                        window.location.href = '/login.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+            }
+        }
+
+        // Initialize activity chart
+        function initActivityChart() {
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Active Sessions',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderColor: '#2563eb',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // View project details
+        function viewProject(projectId) {
+            window.location.href = `/project-detail.html?id=${projectId}`;
+        }
+
+        // Edit project
+        function editProject(projectId) {
+            window.location.href = `/project-edit.html?id=${projectId}`;
+        }
+    </script>
+</body>
+</html> 

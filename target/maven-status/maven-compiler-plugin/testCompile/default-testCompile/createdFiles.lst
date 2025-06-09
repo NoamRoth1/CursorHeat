@@ -1,0 +1,5 @@
+org/cursorheat/CursorHeatApplicationTests$LoginRequest.class
+org/cursorheat/service/AuthenticationServiceTest.class
+org/cursorheat/CursorHeatApplicationTests.class
+org/cursorheat/config/TestSecurityConfig.class
+org/cursorheat/security/CustomUserDetailsServiceTest.class

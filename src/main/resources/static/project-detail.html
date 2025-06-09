@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CursorHeat - Project Details</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 1rem;
+        }
+        .navbar-menu a {
+            color: #666;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .navbar-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .button.secondary {
+            background-color: #2ecc71;
+        }
+        .button.secondary:hover {
+            background-color: #27ae60;
+        }
+        .button.danger {
+            background-color: #e74c3c;
+        }
+        .button.danger:hover {
+            background-color: #c0392b;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .card p {
+            color: #666;
+            margin: 0.5rem 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card h3 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .stat-card p {
+            color: #666;
+            margin: 0.5rem 0 0;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-container h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .chart {
+            width: 100%;
+            height: 300px;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">CursorHeat</a>
+        <div class="navbar-menu">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/projects">Projects</a>
+            <a href="/account">Account</a>
+            <a href="#" id="logoutButton">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="projectName">Project Details</h1>
+            <div>
+                <a href="#" class="button" id="editButton">Edit Project</a>
+                <button class="button danger" id="deleteButton">Delete Project</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="totalEvents">0</h3>
+                <p>Total Events</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="uniqueUsers">0</h3>
+                <p>Unique Users</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="avgSession">0m</h3>
+                <p>Avg. Session</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="conversionRate">0%</h3>
+                <p>Conversion Rate</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>User Activity</h2>
+            <canvas id="userActivityChart" class="chart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Event Distribution</h2>
+            <canvas id="eventDistributionChart" class="chart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Project Information</h2>
+            <p><strong>Website URL:</strong> <span id="projectUrl"></span></p>
+            <p><strong>Created:</strong> <span id="projectCreated"></span></p>
+            <p><strong>Last Updated:</strong> <span id="projectUpdated"></span></p>
+        </div>
+
+        <div class="card">
+            <h2>Integration Code</h2>
+            <pre id="integrationCode" style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; overflow-x: auto;"></pre>
+            <button class="button" id="copyCodeButton">Copy Code</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Check if user is authenticated
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+
+        // Get project ID from URL
+        const projectId = window.location.pathname.split('/').pop();
+
+        // Handle logout
+        document.getElementById('logoutButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        });
+
+        // Initialize charts
+        const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
+        const eventDistributionCtx = document.getElementById('eventDistributionChart').getContext('2d');
+
+        const userActivityChart = new Chart(userActivityCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Active Users',
+                    data: [],
+                    fill: false,
+                    borderColor: '#3498db',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const eventDistributionChart = new Chart(eventDistributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Clicks', 'Moves', 'Scrolls'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: ['#3498db', '#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Fetch project details
+        async function fetchProjectDetails() {
+            try {
+                const response = await fetch(`/api/v1/projects/${projectId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch project details');
+                }
+
+                const project = await response.json();
+                document.getElementById('projectName').textContent = project.name;
+                document.getElementById('projectUrl').textContent = project.url;
+                document.getElementById('projectCreated').textContent = new Date(project.createdAt).toLocaleString();
+                document.getElementById('projectUpdated').textContent = new Date(project.updatedAt).toLocaleString();
+
+                // Update integration code
+                const integrationCode = `<script src="https://cdn.cursorheat.com/tracker.js"></script>
+<script>
+    CursorHeat.init({
+        projectId: '${project.id}',
+        apiKey: '${project.apiKey}'
+    });
+</script>`;
+                document.getElementById('integrationCode').textContent = integrationCode;
+            } catch (error) {
+                console.error('Error fetching project details:', error);
+            }
+        }
+
+        // Fetch project analytics
+        async function fetchProjectAnalytics() {
+            try {
+                const response = await fetch(`/api/v1/projects/${projectId}/analytics`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch project analytics');
+                }
+
+                const analytics = await response.json();
+                
+                // Update stats
+                document.getElementById('totalEvents').textContent = analytics.totalEvents;
+                document.getElementById('uniqueUsers').textContent = analytics.uniqueUsers;
+                document.getElementById('avgSession').textContent = `${analytics.avgSessionDuration}m`;
+                document.getElementById('conversionRate').textContent = `${analytics.conversionRate}%`;
+
+                // Update charts
+                userActivityChart.data.labels = analytics.userActivity.labels;
+                userActivityChart.data.datasets[0].data = analytics.userActivity.data;
+                userActivityChart.update();
+
+                eventDistributionChart.data.datasets[0].data = [
+                    analytics.eventDistribution.clicks,
+                    analytics.eventDistribution.moves,
+                    analytics.eventDistribution.scrolls
+                ];
+                eventDistributionChart.update();
+            } catch (error) {
+                console.error('Error fetching project analytics:', error);
+            }
+        }
+
+        // Handle edit button
+        document.getElementById('editButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = `/projects/${projectId}/edit`;
+        });
+
+        // Handle delete button
+        document.getElementById('deleteButton').addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/v1/projects/${projectId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    window.location.href = '/projects';
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Failed to delete project');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Handle copy code button
+        document.getElementById('copyCodeButton').addEventListener('click', () => {
+            const code = document.getElementById('integrationCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Integration code copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy code. Please try again.');
+            });
+        });
+
+        // Initialize page
+        fetchProjectDetails();
+        fetchProjectAnalytics();
+    </script>
+</body>
+</html> 
