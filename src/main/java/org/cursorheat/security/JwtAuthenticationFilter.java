@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
+// Removed @Component to prevent global registration
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ import java.io.IOException;
  * @author CursorHeat Team
  * @version 1.0
  */
-@Component
+// @Component // Removed to prevent global registration; filter is added explicitly in SecurityConfig
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
@@ -112,7 +112,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith("/api/v1/auth/") || 
+        return path.startsWith("/api/v1/auth/") ||
+               path.equals("/api/v1/health") || // Added to exclude health endpoint from JWT filter
                path.equals("/") || 
                path.endsWith(".html") || 
                path.endsWith(".css") || 
