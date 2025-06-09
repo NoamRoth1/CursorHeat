@@ -1,5 +1,9 @@
-org/cursorheat/CursorHeatApplicationTests$LoginRequest.class
 org/cursorheat/service/AuthenticationServiceTest.class
+org/cursorheat/CursorHeatApplicationTests$LoginRequest.class
 org/cursorheat/CursorHeatApplicationTests.class
-org/cursorheat/config/TestSecurityConfig.class
+org/cursorheat/security/JwtServiceTest.class
+org/cursorheat/security/SecurityIntegrationTest.class
+org/cursorheat/security/CurrentUserTest.class
+org/cursorheat/config/WebSecurityConfigTest.class
 org/cursorheat/security/CustomUserDetailsServiceTest.class
+org/cursorheat/config/TestSecurityConfig.class

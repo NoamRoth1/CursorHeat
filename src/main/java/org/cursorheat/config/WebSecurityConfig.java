@@ -2,6 +2,7 @@ package org.cursorheat.config;
 
 import lombok.RequiredArgsConstructor;
 import org.cursorheat.security.JwtAuthenticationFilter;
+import org.cursorheat.security.JwtService; // Added import
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -53,54 +54,28 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
+    // Removed jwtAuthFilter from constructor injection
     private final UserDetailsService userDetailsService;
+    // JwtService will be injected into the jwtAuthenticationFilter bean method
+    private final JwtService jwtService;
 
-    /**
-     * Configures the security filter chain for the application.
-     * 
-     * This method sets up:
-     * - Public and protected endpoints
-     * - CORS configuration
-     * - JWT filter integration
-     * - Session management
-     * - Authentication provider
-     *
-     * @param http The HttpSecurity object to configure
-     * @return The configured SecurityFilterChain
-     * @throws Exception if an error occurs during configuration
-     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+        return new JwtAuthenticationFilter(jwtService, userDetailsService);
+    }
+
+    @Bean
+    @org.springframework.core.annotation.Order(1)
+    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter) throws Exception { // jwtAuthFilter is now a parameter
         http
+            .securityMatcher("/api/**")
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/v1/auth/**",
-                    "/v2/api-docs",
-                    "/v3/api-docs",
-                    "/v3/api-docs/**",
-                    "/swagger-resources",
-                    "/swagger-resources/**",
-                    "/configuration/ui",
-                    "/configuration/security",
-                    "/swagger-ui/**",
-                    "/webjars/**",
-                    "/swagger-ui.html",
-                    "/",
-                    "/index.html",
-                    "/login.html",
-                    "/signup.html",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**"
-                ).permitAll()
+                .requestMatchers("/api/v1/auth/**", "/api/v1/health").permitAll()
                 .anyRequest().authenticated()
             )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling(exception -> exception
@@ -115,7 +90,58 @@ public class WebSecurityConfig {
                     response.getWriter().write("{\"error\": \"Forbidden\", \"message\": \"Access denied\"}");
                 })
             );
+        return http.build();
+    }
 
+    @Bean
+    @org.springframework.core.annotation.Order(2)
+    public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // Kept disabled for simplicity, can be enabled for web
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/v2/api-docs",
+                    "/v3/api-docs",
+                    "/v3/api-docs/**",
+                    "/swagger-resources",
+                    "/swagger-resources/**",
+                    "/configuration/ui",
+                    "/configuration/security",
+                    "/swagger-ui/**",
+                    "/webjars/**",
+                    "/swagger-ui.html",
+                    "/",
+                    "/index.html",
+                    "/login.html",
+                    "/signup.html",
+                    "/docs.html",
+                    "/error.html",
+                    "/about", // Assuming /about might be a static page or handled by a controller not under /api
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // Allow sessions for web UI
+            .authenticationProvider(authenticationProvider())
+            // jwtAuthFilter is not added here, formLogin will be the primary mechanism
+            .formLogin(form -> form
+                .loginPage("/login.html")
+                .permitAll()
+            )
+            .logout(logout -> logout.logoutSuccessUrl("/login.html?logout").permitAll())
+            .exceptionHandling(exception -> exception
+                .authenticationEntryPoint(new org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint("/login.html"))
+                 .accessDeniedHandler((request, response, accessDeniedException) -> { // For 403
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    // Optionally, redirect to a custom error page for web: response.sendRedirect("/error-403.html");
+                    // For now, keeping JSON response for consistency or if any non-API JS still hits this
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\": \"Forbidden\", \"message\": \"Access denied\"}");
+                })
+            );
         return http.build();
     }
 
